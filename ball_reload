@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        // var in global scope
+
+        var score, score1, score_shots, dir1, direction, nation, nation1, x, y;
+
+        var random_number = 5;
+
+        var marque_speed = 2500;
+
+        var ui_blocked = false;
+
+        // make marque visible
+
+        $(document).ready(function () {
+            $(".btn-group_shoot").mouseenter(function () {
+                $("#marque").css("opacity", "1");
+
+            });
+            $(".btn-group_shoot").mouseleave(function () {
+                $("#marque").css("opacity", "0");
+
+            });
+        });
+
+        // make marque move 
+
+        $(document).ready(function () {
+
+            $(".btn-group_save").click(function () {
+                moveRight();
+            });
+
+            $(".btn-group_shoot").click(function () {
+                $("#marque").stop();
+
+                // disable changing teams after game started
+            $( ".nation" ).prop( "disabled", true );
+            $( ".nation1" ).prop( "disabled", true );
+
+
+            });
+
+        });
+
+        function moveRight() {
+            $("#marque").animate({ left: '180px' }, marque_speed, function () {
+                moveLeft();
+            });
+        }
+
+        function moveLeft() {
+            $("#marque").animate({ left: '0px' }, marque_speed, function () {
+                moveRight();
+            });
+        }
+
+
+
+        //Difficulty Level 
+        // var slide increases slider speed
+        // var random_number increases bad shoots
+
+        $(document).ready(function () {
+            $("#amateur").click(function () {
+                $("li").css("background", "linear-gradient(darkgrey,grey)");
+                $(this).css("background", "green");
+                $("h1").css("background-color", "green");
+                $("#marque").css("background-color", "green");
+                random_number = 6;
+                marque_speed = 1500;
+            });
+
+            $("#pro").click(function () {
+                $("li").css("background", "linear-gradient(darkgrey,grey)");
+                $(this).css("background", "orange");
+                $("h1").css("background-color", "orange");
+                $("#marque").css("background-color", "orange");
+                random_number = 5;
+                marque_speed = 700;
+            });
+
+            $("#expert").click(function () {
+                $("li").css("background", "linear-gradient(darkgrey,grey)");
+                $(this).css("background", "red");
+                $("h1").css("background-color", "red");
+                $("#marque").css("background-color", "red");
+                random_number = 4;
+                marque_speed = 400;
+            });
+
+        });
+
+        //Highlight Selected Team 
+
+        $(document).ready(function () {
+            $(".nation").click(function () {
+                $(".nation").css("opacity", "0.1");
+                $(this).css("opacity", "1");
+            });
+
+            $(".nation1").click(function () {
+                $(".nation1").css("opacity", "0.1");
+                $(this).css("opacity", "1");
+                $(".btn-group_shoot").fadeTo("1000", 1);
+            });
+        });
+
+        // Select Team
+
+        $(document).ready(function () {
+            $(".nation.aut").click(function () {
+                $("#forward").removeClass();
+                nation = "aut";
+                $("#forward").addClass(nation);
+                document.getElementById("score_land").innerHTML = "Austria:";
+            });
+
+
+            $(".nation.bra").click(function () {
+                $("#forward").removeClass();
+                nation = "bra";
+                $("#forward").addClass("bra");
+                document.getElementById("score_land").innerHTML = "Brasil:";
+            });
+
+            $(".nation.ned").click(function () {
+                $("#forward").removeClass();
+                nation = "ned";
+                $("#forward").addClass("ned");
+                document.getElementById("score_land").innerHTML = "Netherlands:";
+            });
+
+            $(".nation.ger").click(function () {
+                $("#forward").removeClass();
+                nation = "ger";
+                $("#forward").addClass("ger");
+                document.getElementById("score_land").innerHTML = "Germany:";
+            });
+
+            $(".nation.ita").click(function () {
+                $("#forward").removeClass();
+                nation = "ita";
+                $("#forward").toggleClass("ita");
+                document.getElementById("score_land").innerHTML = "Italy:";
+            });
+
+        });
+
+        //Select Opponent
+
+        $(document).ready(function () {
+            $(".nation1.aut").click(function () {
+                $("#goalie").removeClass();
+                nation1 = "aut";
+                $("#goalie").addClass("aut");
+                document.getElementById("score_land1").innerHTML = "Austria:";
+            });
+
+
+            $(".nation1.bra").click(function () {
+                $("#goalie").removeClass();
+                nation1 = "bra";
+                $("#goalie").addClass(nation1);
+                document.getElementById("score_land1").innerHTML = "Brasil:";
+            });
+
+            $(".nation1.ned").click(function () {
+                $("#goalie").removeClass();
+                nation1 = "ned";
+                $("#goalie").addClass("ned");
+                document.getElementById("score_land1").innerHTML = "Netherlands:";
+            });
+
+            $(".nation1.ger").click(function () {
+                $("#goalie").removeClass();
+                nation1 = "ger";
+                $("#goalie").addClass("ger");
+                document.getElementById("score_land1").innerHTML = "Germany:";
+            });
+
+            $(".nation1.ita").click(function () {
+                $("#goalie").removeClass();
+                nation1 = "ita";
+                $("#goalie").toggleClass("ita");
+                document.getElementById("score_land1").innerHTML = "Italy:";
+            });
+
+        });
+
+        //Move Forward 
+
+        $(document).ready(function () {
+            $(".button").click(function (e) {
+                if (ui_blocked) {
+                    e.stopImmediatePropagation;
+                    return;
+                }
+
+                $("#forward").animate({
+                    left: '205px',
+                    top: '270px'
+                }, 1000);
+            });
+        });
+
+        //Result 
+
+        function result() {
+            $(document).ready(function () {
+                $(".btn-group_save").css("display", "none");
+                $(".btn-group_shoot").css("display", "none");
+                $("#marque").css("opacity", "0");
+
+		    // enable changing teams after game ended
+
+            $( ".nation" ).prop( "disabled", false );
+            $( ".nation1" ).prop( "disabled", false );
+            });
+        }
+        // counter -- add 1 on score
+
+        var counter = 0;
+
+        function add() {
+            return counter += 1;
+        }
+
+        function add_score() {
+            document.getElementById("score").innerHTML = add();
+        }
+
+        var counter1 = 0;
+
+        function add1() {
+            return counter1 += 1;
+        }
+
+        function add_score1() {
+            document.getElementById("score1").innerHTML = add1();
+        }
+
+        var counter2 = 0;
+
+        function add2() {
+            return counter2 += 1;
+        }
+
+        var counter3 = 1;
+
+        function add3() {
+            return counter3 += 1;
+        }
+
+        function add_round() {
+            document.getElementById("score_shots").innerHTML = add3();
+        }
+        //Shoot 
+        function shoot() {
+            ui_blocked = false;
+            if (dir1 != x && dir1 != 9) {
+                add_score1();
+            }
+
+            add_round();
+
+            if (counter2 == 5 && counter > counter1) {
+                document.getElementById("news").innerHTML = "Home wins";
+                result();
+            }
+            if (counter2 == 5 && counter < counter1) {
+                document.getElementById("news").innerHTML = "Guest wins";
+                result();
+
+            }
+            if (counter2 > 5 && counter > counter1) {
+                document.getElementById("news").innerHTML = "Home wins";
+                result();
+
+            }
+
+            if (counter2 > 5 && counter < counter1) {
+                document.getElementById("news").innerHTML = "Guest wins";
+                result();
+
+            }
+
+            $("#forward").animate({
+                left: '250px',
+                top: '400px'
+            });
+
+            $("#goalie").animate({
+                left: '210px',
+                top: '60px'
+            }, function () {
+                $("#goalie").css("transform", "rotate(0deg)");
+            })
+
+            $("#ball").animate({
+                left: '210px',
+                top: '320px'
+            });
+
+
+            $(".btn-group_save").css({ "z-index": "1" });
+            $(".btn-group_shoot").css({ "z-index": "10" });
+
+
+
+            $("#forward").removeClass();
+            $("#goalie").removeClass();
+            $("#forward").addClass(nation);
+            $("#goalie").addClass(nation1);
+
+        }
+
+
+
+        // Save 
+
+
+
+        function save() {
+            ui_blocked = false;
+            if (direction != y && direction != 9) {
+                add_score();
+            }
+
+            add2();
+
+            $("#forward").animate({
+                left: '250px',
+                top: '400px'
+            });
+
+            $("#goalie").animate({
+                left: '210px',
+                top: '60px'
+            }, function () {
+                $("#goalie").css("transform", "rotate(0deg)");
+            })
+
+            $("#ball").animate({
+                left: '210px',
+                top: '320px'
+            });
+
+
+            $(".btn-group_save").css({ "z-index": "10" });
+            $(".btn-group_shoot").css({ "z-index": "1" });
+
+            $("#forward").removeClass();
+            $("#goalie").removeClass();
+            $("#forward").addClass(nation1);
+            $("#goalie").addClass(nation);
+
+            $("#marque").css("opacity", "0");
+
+        }
+
+
+
+
+
+        //My Save -- Random Shot -- Right Div 
+        $(document).ready(function () {
+            $(".btn-group_shoot").mouseover(function () {
+                $("#marque").css("opacity", "1");
+            });
+
+            $(".btn-group_shoot").click(rand_save);
+
+        });
+
+        // My Shot -- Random Save  -- Left Div
+        $(document).ready(function () {
+            $(".btn-group_save").click(rand_shoot);
+
+        });
+
+
+        // Direction Ball   --- sh = shoot 
+
+
+
+
+        function sh_left() {
+            direction = 0;
+            $("#ball").delay(1000).animate({
+
+                left: '10px',
+                top: '120px'
+            }, 1000);
+        }
+
+        function sh_Upleft() {
+            direction = 1;
+            $("#ball").delay(1000).animate({
+                left: '10px',
+                top: '20px'
+            }, 1000);
+        }
+
+        function sh_right() {
+            direction = 2;
+            $("#ball").delay(1000).animate({
+                left: '380px',
+                top: '120px'
+            }, 1000);
+        }
+
+        function sh_Upright() {
+            direction = 3;
+            $("#ball").delay(1000).animate({
+                left: '380px',
+                top: '20px'
+            }, 1000);
+        }
+
+        function bad_shoot() {
+            direction = 9; dir1 = 9;
+            $("#ball").delay(1000).animate({
+                left: '180px',
+                top: '-25px'
+            }, 1000);
+        }
+
+
+        // get position of marque 
+        $(document).ready(function () {
+
+
+            function check_posi_left() {
+
+                posi = $("#marque").position().left;
+                if (posi < 50 || posi > 140) {
+
+                    bad_shoot();
+                } else { sh_left(); }
+            }
+
+            function check_posi_Upleft() {
+                posi = $("#marque").position().left;
+                if (posi < 50 || posi > 140) {
+
+                    bad_shoot();
+                } else { sh_Upleft(); }
+            }
+
+            function check_posi_right() {
+                posi = $("#marque").position().left;
+                if (posi < 50 || posi > 140) {
+
+                    bad_shoot();
+                } else { sh_right(); }
+            }
+
+            function check_posi_Upright() {
+                posi = $("#marque").position().left;
+                if (posi < 50 || posi > 140) {
+
+                    bad_shoot();
+                } else { sh_Upright(); }
+            }
+
+            $("#save_left").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    check_posi_left();
+                }
+            });
+
+
+            $("#save_Upleft").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    check_posi_Upleft();
+                }
+            });
+            $("#save_right").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    check_posi_right();
+                }
+            });
+
+            $("#save_UpRight").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    check_posi_Upright();
+                }
+            });
+            
+            // $(".canStopAnimation").click(() => {
+
+            //     $("#marque").removeClass();
+            // });
+
+        });
+
+        // ui block handling
+        function handleUiBlock(clickEvent) {
+            if (ui_blocked) {
+                clickEvent.stopImmediatePropagation();
+                return true;
+            }
+            ui_blocked = true;
+            return false;
+        }
+
+        //Random Shoot
+
+
+        function rand_shoot() {
+
+            x = Math.floor(Math.random() * random_number);
+
+            switch (x) {
+                case 0:
+                    sh_left();
+                    break;
+                case 1:
+                    sh_Upleft();
+                    break;
+                case 2:
+                    sh_right();
+                    break;
+                case 3:
+                    sh_Upright();
+                    break;
+                default:
+
+                    bad_shoot();
+            }
+        }
+
+
+        //Direction Goalie  -- sa = save
+
+        function sa_left() {
+            dir1 = 0;
+            $("#goalie").delay(900).animate({
+                left: '30px',
+                top: '90px'
+            }, 900, function () {
+                $("#goalie").css("transform", "rotate(-90deg)");
+            })
+        }
+
+        function sa_Upleft() {
+            dir1 = 1;
+            $("#goalie").delay(1000).animate({
+                left: '30px',
+                top: '20px'
+            }, 1000, function () {
+                $("#goalie").css("transform", "rotate(-45deg)");
+            })
+        }
+
+        function sa_right() {
+            dir1 = 2;
+            $("#goalie").delay(1000).animate({
+                left: '360px',
+                top: '90px'
+            }, 1000, function () {
+                $("#goalie").css("transform", "rotate(-90deg)");
+            })
+
+        }
+
+        function sa_Upright() {
+            dir1 = 3;
+            $("#goalie").delay(1000).animate({
+                left: '360px',
+                top: '20px'
+            }, 1000, function () {
+                $("#goalie").css("transform", "rotate(45deg)");
+            })
+
+        }
+
+        $(document).ready(function () {
+
+            $("#shoot_left").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    sa_left();
+                }
+            });
+
+            $("#shoot_Upleft").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    sa_Upleft();
+                }
+            });
+
+            $("#shoot_right").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    sa_right();
+                }
+            });
+
+            $("#shoot_UpRight").click(function (e) {
+                if (!handleUiBlock(e)) {
+                    sa_Upright();
+                }
+            });
+
+
+        });
+
+
+        //Random Goalie 
+
+
+        function rand_save() {
+
+            y = Math.floor(Math.random() * 4);
+
+            switch (y) {
+                case 0:
+                    sa_left();
+                    break;
+                case 1:
+                    sa_Upleft();
+                    break;
+                case 2:
+                    sa_right();
+                    break;
+                case 3:
+                    sa_Upright();
+
+
+            }
+        }
+
+
+
+        //Clear Game Arena 
+
+        $(document).ready(function () {
+            $("#newGame").click(function () {
+/*
+                $("#marque").stop();
+                shoot();
+                counter = 0;
+                counter1 = 0;
+                counter2 = 0;
+                counter3 = 1;
+
+                document.getElementById("score_shots").innerHTML = "1";
+                document.getElementById("score_land").innerHTML = "-----:";
+                document.getElementById("score_land1").innerHTML = "-----:";
+                document.getElementById("score").innerHTML = "0";
+                document.getElementById("score1").innerHTML = "0";
+                document.getElementById("news").innerHTML = "Welcome to the World Final";
+
+                $(".btn-group_save").fadeTo("1000", 1);
+                $(".btn-group_shoot").fadeTo("1000", 1);
+                $(".btn-group_save").css({ "z-index": "1" });
+                $(".btn-group_shoot").css({ "z-index": "10" });
+              
+
+
+                $("#forward").animate({
+                    left: '250px',
+                    top: '400px'
+                });
+
+                $("#goalie").animate({
+                    left: '210px',
+                    top: '60px'
+                }, function () {
+                    $("#goalie").css("transform", "rotate(0deg)");
+                })
+
+                $("#ball").animate({
+                    left: '210px',
+                    top: '320px'
+                });
+
+                $("#forward").removeClass();
+                $("#goalie").removeClass();
+
+                $(".nation").css("opacity", "1");
+                $(".nation1").css("opacity", "1");
+
+             	$( ".nation" ).prop( "disabled", false );
+            	$( ".nation1" ).prop( "disabled", false );
+
+                   moveRight();
+
+*/
+location.reload();
+
+
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(darkgrey, lightgrey, darkgrey);
+            padding: 10px;
+            font-family: Tahoma, Geneva, sans-serif;
+        }
+
+
+
+        #wrapper {
+            width: 850px;
+            margin: auto;
+
+            padding: 10px 30px;
+            margin-top: 25px;
+            box-shadow: inset 2px 2px 5px rgba(10, 10, 10, 0.7);
+        }
+
+
+
+        h1 {
+            width: 900px;
+            margin: auto;
+            margin-top: -10px;
+            color: rgba(250, 250, 250, 0.6);
+            text-shadow: 1px 1px 2px darkgrey;
+            padding: 10px 30px;
+            text-align: center;
+            font-weight: normal;
+            background-color: grey;
+        }
+        /* Left Side */
+
+        #left {
+            position: realtive;
+            background: linear-gradient(to bottom, darkgreen, darkgreen, green);
+            height: 500px;
+            width: 440px;
+            margin-top: 60px;
+        }
+
+        #goal {
+            position: absolute;
+            width: 430px;
+            height: 150px;
+            border: 5px ridge lightgrey;
+            border-bottom: none;
+            background: linear-gradient(rgba(250, 250, 250, 0.8), rgba(250, 250, 250, 0.4), rgba(250, 250, 250, 0.4));
+            box-shadow: inset 2px 2px 5px black;
+        }
+
+        #goalie {
+            position: absolute;
+            left: 210px;
+            top: 60px;
+            height: 90px;
+            width: 20px;
+            background-color: rgba(250, 250, 250, 0.2);
+        }
+
+        #ball {
+            position: absolute;
+            left: 210px;
+            top: 320px;
+            height: 20px;
+            width: 20px;
+            background: radial-gradient( white, darkgrey, darkgrey, white);
+            border-radius: 50%;
+        }
+
+        #forward {
+            position: absolute;
+            left: 250px;
+            top: 400px;
+            height: 80px;
+            width: 20px;
+            background-color: rgba(250, 250, 250, 0.6);
+        }
+        /* Right Site */
+
+        #right {
+            position: relative;
+            height: 500px;
+            width: 40%;
+            margin-top: 50px;
+            float: right;
+            text-align: center;
+            font-family: Tahoma, Geneva, sans-serif;
+            color: rgba(250, 250, 250, 0.6);
+        }
+        /* css difficult  */
+
+        ul {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100px;
+            background: linear-gradient(darkgrey, grey);
+
+            border: 1px solid rgba(250, 250, 250, 0.6);
+            opacity: 0.7;
+        }
+
+        li a {
+            display: block;
+            color: rgba(250, 250, 250, 0.6);
+            padding: 12px 16px;
+            text-decoration: none;
+        }
+
+        li {
+            text-align: center;
+            border-bottom: 1px solid rgba(250, 250, 250, 0.6);
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li a:hover {
+            background: linear-gradient(grey, darkgrey);
+        }
+
+        #newGame:hover {
+            background: linear-gradient(lightgrey, darkgrey, lightgrey);
+        }
+
+        .btn-group_shoot .button,
+        .btn-group_save .button {
+
+            background: linear-gradient(darkgrey, lightgrey, darkgrey);
+            color: rgba(250, 250, 250, 0.6);
+            padding: 15px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline;
+            font-size: 16px;
+            cursor: pointer;
+            width: 50px;
+            margin-left: -5px;
+        }
+
+        .btn-group_save {
+            z-index: 1;
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+        }
+
+        .btn-group_shoot .button:hover,
+        .btn-group_save .button:hover {
+            background: linear-gradient(lightgrey, darkgrey, lightgrey);
+        }
+
+        .btn-group_shoot {
+            z-index: 10;
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+        }
+        /* Slider */
+
+        #slider {
+
+            position: absolute;
+            bottom: 5px;
+            left: 0px;
+            width: 190px;
+            height: 10px;
+            background: linear-gradient(to right, black 10%, rgba(240, 240, 240, 1)50%, rgba(240, 240, 240, 1), black);
+            opacity: 0.5;
+        }
+
+        #marque {
+            opacity: 0;
+            position: absolute;
+            bottom: 5px;
+            left: 0px;
+            width: 10px;
+            height: 10px;
+            background: orange;
+            border-radius: 50%;
+        }
+
+
+
+        @-webkit-keyframes marque {
+            0% {
+                left: 10px;
+            }
+
+            50% {
+                left: 180px;
+            }
+            100% {
+                left: 0;
+            }
+        }
+        /* Style Teams */
+
+        .nation,
+        .nation1 {
+            width: 50px;
+            height: 25px;
+
+            padding: 2%;
+            color: white;
+            border-radius: 15px 0px 0px 0px;
+            margin-left: 2%;
+            box-shadow: inset 2px 2px 2px black;
+            text-shadow: 1px 1px 1px black;
+            text-decoration: none;
+        }
+
+        .nation:hover,
+        .nation1:hover {
+            opacity: 0.5;
+        }
+
+
+        .aut {
+
+            background: linear-gradient(to bottom, red 50%, white 50%);
+            border: none;
+        }
+
+        .bra {
+
+            background: linear-gradient(to top, blue 50%, yellow 50%);
+            border: none;
+        }
+
+        .ned {
+
+            background: linear-gradient(to bottom, orange 50%, orange 50%);
+            border: none;
+        }
+
+        .ger {
+
+            background: linear-gradient(to top, black 50%, white 50%);
+            border: none;
+        }
+
+        .ita {
+
+            background: linear-gradient(to bottom, blue 50%, white 50%);
+            border: none;
+        }
+
+        hr {
+            background-color: rgba(250, 250, 250, 0.4);
+        }
+
+        h2 {
+            display: inline;
+        }
+    </style>
+</head>
+
+<body onload="moveRight();">
+
+    <div id="header">
+        <h1 id="news">Welcome to the World Final</h1>
+    </div>
+    <ul>
+        <li id="newGame"><a href="#">New Game</a></li>
+        <li id="amateur"><a href="#">Amateur</a></li>
+        <li id="pro"><a href="#">Pro</a></li>
+        <li id="expert"><a href="#">Expert</a></li>
+    </ul>
+    <div id="wrapper">
+
+        <div id="right">
+
+
+
+            <h3>Select your Team:</h3>
+
+            <button class="nation aut" id="at"></button>
+            <button class="nation bra" id="br"></button>
+            <button class="nation ned"></button>
+            <button class="nation ger"></button>
+            <button class="nation ita"></button>
+
+
+
+
+
+            <h3>Select your Opponent:</h3>
+
+            <button class="nation1 ger"></button>
+            <button class="nation1 ita"></button>
+            <button class="nation1 ned"></button>
+            <button class="nation1 aut"></button>
+            <button class="nation1 bra"></button>
+            <br><br>
+            <hr>
+            <br><br>
+
+            <h2> Round: </h2>
+            <h2 id="score_shots">1</h2>
+            <br> <br>
+            <h2 id="score_land"> -----:</h2>
+            <h2 id="score">0 </h2>
+            <br>
+            <h2 id="score_land1"> -----:</h2>
+            <h2 id="score1"> 0 </h2>
+
+
+
+            <div class="btn-group_shoot" onclick="setTimeout(save, 5000)">
+                <button id="save_Upleft" class="canStopAnimation button"><<</button>
+                <button id="save_UpRight" class="canStopAnimation button">>></button>
+                <br>
+                <button id="save_left" class="canStopAnimation button"><<</button>
+                <button id="save_right" class="canStopAnimation button">>></button>
+            </div>
+
+            <div class="btn-group_save" onclick="setTimeout(shoot, 5000);">
+                <button id="shoot_Upleft" class="button"><<</button>
+                <button id="shoot_UpRight" class="button">>></button>
+                <br>
+                <button id="shoot_left" class="button"><<</button>
+                <button id="shoot_right" class="button">>></button>
+            </div>
+
+            <div id="slider"> </div>
+            <div class="animationRunning" id="marque">
+            </div>
+
+        </div>
+
+        <div id="left">
+
+            <div id="goal">
+                <div id="goalie">
+                </div>
+                <div id="ball">
+                </div>
+                <div id="forward">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+
